@@ -2,9 +2,12 @@ package com.tiledcalendar.entries;
 
 import android.graphics.Color;
 
+import androidx.annotation.RestrictTo;
+
 /**
  * TODO: documentation
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
 public final class Tile implements Comparable<Tile>{
     private String uniqueID;
     private String name;

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
+import androidx.annotation.RestrictTo;
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
 public final class Utils {
     public static int dpToPx(float dp, Context context){
         Resources resources = context.getResources();

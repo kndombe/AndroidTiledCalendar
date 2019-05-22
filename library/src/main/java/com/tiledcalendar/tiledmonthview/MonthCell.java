@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * A single cell in the month view.
+ * A single cell in the tiled month view calendar.
  * @param <T> the type of the entries stored by each month cell
  */
 final class MonthCell <T extends Entry> {

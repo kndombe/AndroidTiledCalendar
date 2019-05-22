@@ -111,7 +111,6 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
             entriesMap.put(entry.getUniqueID(), entry);
         }
         updateAdapters();
-//        updateCells();
     }
 
     @Override
