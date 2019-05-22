@@ -10,11 +10,10 @@ import java.util.List;
 
 /**
  * A single cell in the tiled month view calendar.
- * @param <T> the type of the entries stored by each month cell
  */
-final class MonthCell <T extends Entry> {
+final class MonthCell{
     private Calendar date;
-    private List<T> entries;
+    private List<Entry> entries;
 
     MonthCell(Calendar date) {
         this.date = date;
@@ -35,7 +34,7 @@ final class MonthCell <T extends Entry> {
      */
     List<Tile> getTiles() {
         List<Tile> cards = new ArrayList<>();
-        for (T entry : entries) {
+        for (Entry entry : entries) {
             cards.add(new Tile(
                     entry.getUniqueID(),
                     entry.getName(),
@@ -51,7 +50,7 @@ final class MonthCell <T extends Entry> {
 
     List<String> getIDs() {
         List<String> ids = new ArrayList<>();
-        for (T entry : entries) {
+        for (Entry entry : entries) {
             ids.add(entry.getUniqueID());
         }
 
@@ -62,7 +61,7 @@ final class MonthCell <T extends Entry> {
      *
      * @param entry
      */
-    void addEntry(T entry) {
+    void addEntry(Entry entry) {
         entries.add(entry);
     }
 

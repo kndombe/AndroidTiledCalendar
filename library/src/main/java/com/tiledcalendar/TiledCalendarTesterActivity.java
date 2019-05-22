@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.tiledcalendar.entries.Entry;
 import com.tiledcalendar.entries.EntryFactory;
 import com.tiledcalendar.tiledmonthview.OnTiledMonthEventListener;
-import com.tiledcalendar.tiledmonthview.TiledMonth;
+import com.tiledcalendar.tiledmonthview.TiledMonthCalendar;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -22,7 +22,7 @@ public class TiledCalendarTesterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiled_calendar_tester);
-        TiledMonth<Entry> tiledMonth = findViewById(R.id.tiled_month_view);
+        TiledMonthCalendar tiledMonth = findViewById(R.id.tiled_month_view);
         tiledMonth.addEntries(Arrays.asList(
                 EntryFactory.makeEntry(
                         "s",

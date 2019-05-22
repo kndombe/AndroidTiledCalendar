@@ -26,7 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
-final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
+final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
 
     interface OnCellClickListener {
         void onCellClick(long selectedDateMillis, boolean dateChanged, boolean monthChanged);
@@ -34,7 +34,7 @@ final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
 
     private final String TAG = "MonthGridAdapter";
     private LayoutInflater inflater;
-    private List<MonthCell<T>> monthCells = new ArrayList<>();
+    private List<MonthCell> monthCells = new ArrayList<>();
     private Calendar selectedDate;
     private int gridViewHeight;
     private OnCellClickListener onCellClickListener;
@@ -47,7 +47,7 @@ final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
         this.selectedDate = selectedDate;
     }
 
-    void updateCells(List<MonthCell<T>> monthCells, Calendar newSelectedDate, int gridViewHeight) {
+    void updateCells(List<MonthCell> monthCells, Calendar newSelectedDate, int gridViewHeight) {
         this.monthCells = monthCells;
         this.selectedDate = newSelectedDate;
         this.gridViewHeight = gridViewHeight;
@@ -55,7 +55,6 @@ final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
     }
 
     void setOnCellClickListener(@NonNull OnCellClickListener onCellClickListener) {
-        //TODO: if the listener was defined already, maybe try to cancel the previous actions?
         this.onCellClickListener = onCellClickListener;
     }
 
@@ -72,7 +71,7 @@ final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
         view.setLayoutParams(layoutParams);
 
         AppCompatTextView cellDate = view.findViewById(R.id.month_view_cell_date);
-        MonthCell<T> cell = getItem(position);
+        MonthCell cell = getItem(position);
         Check.notNull(cell, TAG);
         boolean isToday = DateTime.isInSameDayAs(cell.getDate(), new GregorianCalendar());
         boolean isSelected = DateTime.isInSameDayAs(cell.getDate(), selectedDate);
@@ -153,7 +152,7 @@ final class MonthGridAdapter <T extends Entry> extends ArrayAdapter<MonthCell> {
 
     @Nullable
     @Override
-    public MonthCell<T> getItem(int position) {
+    public MonthCell getItem(int position) {
         return monthCells.get(position);
     }
 

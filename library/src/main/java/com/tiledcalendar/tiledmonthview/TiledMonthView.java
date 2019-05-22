@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -30,11 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * A calendar view that displays a month view and allows to customize each cell by adding tiles
- * with a custom text.
- */
-public final class TiledMonthView <T extends Entry> extends LinearLayout implements TiledMonth<T>{
+public final class TiledMonthView extends LinearLayout implements TiledMonthCalendar {
     private Context context;
     private RelativeLayout header;
     private MaterialButton previous;
@@ -47,14 +42,14 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
     private GridView nextGridView;
     private int gridViewWidth;
     private int gridViewHeight;
-    private MonthGridAdapter<T> gridAdapter;
-    private MonthGridAdapter<T> previousGridAdapter;
-    private MonthGridAdapter<T> nextGridAdapter;
+    private MonthGridAdapter gridAdapter;
+    private MonthGridAdapter previousGridAdapter;
+    private MonthGridAdapter nextGridAdapter;
     private Calendar selectedDate;
-    private List<MonthCell<T>> monthCells = new ArrayList<>();
-    private List<MonthCell<T>> previousMonthCells = new ArrayList<>();
-    private List<MonthCell<T>> nextMonthCells = new ArrayList<>();
-    private Map<String, T> entriesMap = new HashMap<>();
+    private List<MonthCell> monthCells = new ArrayList<>();
+    private List<MonthCell> previousMonthCells = new ArrayList<>();
+    private List<MonthCell> nextMonthCells = new ArrayList<>();
+    private Map<String, Entry> entriesMap = new HashMap<>();
     private OnTiledMonthEventListener onTiledMonthEventListener;
 
 
@@ -106,8 +101,14 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
     }
 
     @Override
-    public void addEntries(List<T> newEntries) {
-        for (T entry : newEntries) {
+    public void addEntry(Entry newEntry) {
+        entriesMap.put(newEntry.getUniqueID(), newEntry);
+        updateAdapters();
+    }
+
+    @Override
+    public void addEntries(List<Entry> newEntries) {
+        for (Entry entry : newEntries) {
             entriesMap.put(entry.getUniqueID(), entry);
         }
         updateAdapters();
@@ -161,12 +162,12 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
     }
 
     private void initGridView() {
-        gridAdapter = new MonthGridAdapter<>(context, selectedDate);
+        gridAdapter = new MonthGridAdapter(context, selectedDate);
         Calendar previousMonthDate =
                 DateTime.relativeTime(selectedDate, Calendar.MONTH, -1);
         Calendar nextMonthDate = DateTime.relativeTime(selectedDate, Calendar.MONTH, 1);
-        previousGridAdapter = new MonthGridAdapter<>(context, previousMonthDate);
-        nextGridAdapter = new MonthGridAdapter<>(context, nextMonthDate);
+        previousGridAdapter = new MonthGridAdapter(context, previousMonthDate);
+        nextGridAdapter = new MonthGridAdapter(context, nextMonthDate);
         monthCells = computeGridCells(selectedDate);
         updateAdapters();
         gridView.setAdapter(gridAdapter);
@@ -201,16 +202,16 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
         currentMonthLabel.setText(label);
     }
 
-    private List<MonthCell<T>> computeGridCells(Calendar selectedDate) {
+    private List<MonthCell> computeGridCells(Calendar selectedDate) {
         long firstDayOfMonth = DateTime.getFirstDayOfMonth(selectedDate.getTimeInMillis());
-        List<MonthCell<T>> cells = new ArrayList<>();
+        List<MonthCell> cells = new ArrayList<>();
         Calendar date = DateTime.getDate(firstDayOfMonth);
 
         // fill in the first (top) week of the month view.
         // start from the first day of the current month and go back by 1 day intervals until the
         // the beginning of the week (Sunday).
         for (int i = date.get(Calendar.DAY_OF_WEEK) - 1; i >= 0; i--) {
-            MonthCell<T> cell = new MonthCell<>(DateTime.getDate(date.getTimeInMillis()));
+            MonthCell cell = new MonthCell(DateTime.getDate(date.getTimeInMillis()));
             cells.add(0, cell);
 
             date.add(Calendar.DAY_OF_MONTH, -1);
@@ -220,7 +221,7 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
         date = DateTime.getDate(firstDayOfMonth);
         date.add(Calendar.DAY_OF_MONTH, 1); // start the day after the first day of month
         for (int i = date.get(Calendar.DAY_OF_WEEK) - 1; i <= 6; i++) {
-            MonthCell<T> cell = new MonthCell<>(DateTime.getDate(date.getTimeInMillis()));
+            MonthCell cell = new MonthCell(DateTime.getDate(date.getTimeInMillis()));
             cells.add(cell);
             date.add(Calendar.DAY_OF_MONTH, 1);
         }
@@ -228,7 +229,7 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
         // fill in the remaining weeks.
         while (DateTime.isInSameMonthAs(date, DateTime.getDate(firstDayOfMonth))) {
             for (int i = 0; i < 7; i++) {
-                MonthCell<T> cell = new MonthCell<>(DateTime.getDate(date.getTimeInMillis()));
+                MonthCell cell = new MonthCell(DateTime.getDate(date.getTimeInMillis()));
                 cells.add(cell);
                 date.add(Calendar.DAY_OF_MONTH, 1);
             }
@@ -241,7 +242,7 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
         Calendar previousMonthDate =
                 DateTime.relativeTime(selectedDate, Calendar.MONTH, -1);
         Calendar nextMonthDate = DateTime.relativeTime(selectedDate, Calendar.MONTH, 1);
-        List<MonthCell<T>> cells = computeGridCells(selectedDate);
+        List<MonthCell> cells = computeGridCells(selectedDate);
         monthCells = cells;
         updateAdapter(gridAdapter, monthCells, selectedDate);
         cells = computeGridCells(previousMonthDate);
@@ -253,15 +254,15 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
     }
 
     private void updateAdapter(
-            MonthGridAdapter<T> gridAdapter,
-            List<MonthCell<T>> monthCells,
+            MonthGridAdapter gridAdapter,
+            List<MonthCell> monthCells,
             Calendar selectedDate) {
         computeCurrentLabel();
         updateCells(gridAdapter, monthCells, selectedDate);
     }
 
-    private void addEntriesToCell(@NonNull MonthCell<T> cell) {
-        for (T entry : entriesMap.values()) {
+    private void addEntriesToCell(@NonNull MonthCell cell) {
+        for (Entry entry : entriesMap.values()) {
             if (DateTime.occursOnDay(entry, cell.getDate().getTimeInMillis())
             ) {
                 cell.addEntry(entry);
@@ -273,19 +274,19 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
 
 
     private void updateCells(
-            MonthGridAdapter<T> gridAdapter,
-            List<MonthCell<T>> monthCells,
+            MonthGridAdapter gridAdapter,
+            List<MonthCell> monthCells,
             Calendar selectedDate) {
 
-        for (MonthCell<T> cell : monthCells) {
+        for (MonthCell cell : monthCells) {
             cell.clearEntries();
             addEntriesToCell(cell);
         }
         gridAdapter.updateCells(monthCells, selectedDate, gridViewHeight);
     }
 
-    private MonthCell<T> getMonthCell(Calendar date) {
-        for (MonthCell<T> monthCell : monthCells) {
+    private MonthCell getMonthCell(Calendar date) {
+        for (MonthCell monthCell : monthCells) {
             if (DateTime.isInSameDayAs(date, monthCell.getDate())) {
                 return monthCell;
             }
@@ -305,7 +306,7 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
                 }
 
                 if (onTiledMonthEventListener != null) {
-                    MonthCell<T> monthCell = getMonthCell(selectedDate);
+                    MonthCell monthCell = getMonthCell(selectedDate);
                     List<String> ids = monthCell == null ? null : monthCell.getIDs();
                     onTiledMonthEventListener.onCellClick(
                             selectedDateMillis,

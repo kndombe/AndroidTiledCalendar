@@ -5,6 +5,7 @@ package com.tiledcalendar.entries;
  * <code>Entry</code> interface.
  */
 public interface Entry {
+
     /**
      * Gets the unique identifier associated with an instance of the class implementing this
      * interface.
@@ -13,13 +14,11 @@ public interface Entry {
      * with a way to identify each instance of the class uniquely and return that identifier from
      * this method.
      *
-     * Note that the "unique ID" here does not only refer to a way to tell 2 distinct objects
-     * apart. It's possible to have multiple copies of the same <code>Entry</code> (i.e. with the
-     * same unique ID) but on completely different object instances.
-     * Therefore, it's important to make sure that your unique ID is something more than just the
-     * hash code of the object, for instance, and something that can be used and checked across
-     * multiple object instances.
-     * //TODO: give example?
+     * Note: The unique ID is used in telling apart the different calendar entries that are passed
+     * to this calendar. It is also used to know with accuracy which <code>Entry</code> is the
+     * target of a specific event action.
+     * If 2 <code>Entry</code> objects return the same value for <code>Entry#getUniqueID</code>, the
+     * latest one added to the calendar will overwrite the one that was added before.
      * @return the unique identifier as a <code>String</code>
      */
     String getUniqueID();
@@ -39,7 +38,7 @@ public interface Entry {
      * <code>Entry</code> in the calendar.
      *
      * Note: for an <code>Entry</code> without any duration, you could simply use the same value for
-     * #getStartDateTime and #getEndDateTime.
+     * <code>Entry#getStartDateTime</code> and <code>Entry#getEndDateTime</code>.
      * @return the start time in milliseconds.
      */
     long getStartDateTime();
@@ -51,7 +50,7 @@ public interface Entry {
      * <code>Entry</code> in the calendar.
      *
      * Note: for an <code>Entry</code> without any duration, you could simply use the same value for
-     * #getStartDateTime and #getEndDateTime.
+     * <code>Entry#getStartDateTime</code> and <code>Entry#getEndDateTime</code>.
      * @return the end time in milliseconds.
      */
     long getEndDateTime();
