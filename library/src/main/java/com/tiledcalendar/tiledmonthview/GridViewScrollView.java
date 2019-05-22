@@ -6,7 +6,7 @@ import android.widget.HorizontalScrollView;
 
 import androidx.annotation.RestrictTo;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class GridViewScrollView extends HorizontalScrollView {
     public GridViewScrollView(Context context) {
         super(context);

@@ -12,7 +12,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class DateTime {
     private static final long MILLI_IN_SECOND = 1000;
     private static final long MILLI_IN_MINUTE = MILLI_IN_SECOND * 60;

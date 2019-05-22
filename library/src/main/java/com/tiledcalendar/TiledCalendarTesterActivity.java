@@ -15,7 +15,7 @@ import java.util.List;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public class TiledCalendarTesterActivity extends AppCompatActivity {
 
     @Override

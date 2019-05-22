@@ -5,7 +5,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class Algorithms {
 
     enum SortOrder {

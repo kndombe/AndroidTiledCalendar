@@ -7,7 +7,7 @@ import androidx.annotation.RestrictTo;
 /**
  * TODO: documentation
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class Tile implements Comparable<Tile>{
     private String uniqueID;
     private String name;
