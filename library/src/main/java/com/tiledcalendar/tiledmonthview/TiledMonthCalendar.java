@@ -31,6 +31,10 @@ import androidx.annotation.NonNull;
  * number of visible <code>Tile</code>s. If there's more available <code>Tile</code>s, those will be
  * present but simply not fully visible.
  *
+ * The user of the calendar should use <code>#setTiledMonthEventListener</code> to set a listener
+ * for the different actions that would be happening within the calendar like date selection, month
+ * change and swipes.
+ *
  * @author Kelly Ndombe
  */
 public interface TiledMonthCalendar {
@@ -48,6 +52,8 @@ public interface TiledMonthCalendar {
      * @return a date in milliseconds.
      */
     long getCurrentSelected();
+
+    // TODO: support for "setCurrentSelected(long)" and "setCurrentToToday()"
 
     /**
      * Gets the time in milliseconds of the date of the first visible cell in the calendar.
