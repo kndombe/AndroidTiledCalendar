@@ -191,7 +191,7 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
     private void updateSelectedDate(Calendar newSelectedDate) {
         boolean sameMonth = DateTime.isInSameMonthAs(selectedDate, newSelectedDate);
         selectedDate = newSelectedDate;
-        if (!sameMonth) {
+        if (!sameMonth && onTiledMonthEventListener != null) {
             onTiledMonthEventListener.onMonthChanged(selectedDate.getTimeInMillis());
         }
     }
@@ -305,14 +305,16 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
                     updateAdapters();
                 }
 
-                MonthCell<T> monthCell = getMonthCell(selectedDate);
-                List<String> ids = monthCell == null ? null : monthCell.getIDs();
-                onTiledMonthEventListener.onCellClick(
-                        selectedDateMillis,
-                        ids,
-                        dateChanged,
-                        monthChanged
-                );
+                if (onTiledMonthEventListener != null) {
+                    MonthCell<T> monthCell = getMonthCell(selectedDate);
+                    List<String> ids = monthCell == null ? null : monthCell.getIDs();
+                    onTiledMonthEventListener.onCellClick(
+                            selectedDateMillis,
+                            ids,
+                            dateChanged,
+                            monthChanged
+                    );
+                }
             }
         });
     }
@@ -354,24 +356,26 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (gridScroll.getScrollX() > gridViewWidth * 1.5) {
-                        setCurrentToNext();
-                        updateAdapters();
-                        scrollGridMiddle();
-                        onTiledMonthEventListener.onSwipe(
-                                true, selectedDate.getTimeInMillis());
-                    } else if (gridScroll.getScrollX() < gridViewWidth * .5) {
-                        setCurrentToPrevious();
-                        updateAdapters();
-                        scrollGridMiddle();
-                        onTiledMonthEventListener.onSwipe(
-                                true, selectedDate.getTimeInMillis()
-                        );
-                    } else {
-                        scrollGridMiddle();
-                        onTiledMonthEventListener.onSwipe(
-                                false, selectedDate.getTimeInMillis()
-                        );
+                    if (onTiledMonthEventListener != null) {
+                        if (gridScroll.getScrollX() > gridViewWidth * 1.5) {
+                            setCurrentToNext();
+                            updateAdapters();
+                            scrollGridMiddle();
+                            onTiledMonthEventListener.onSwipe(
+                                    true, selectedDate.getTimeInMillis());
+                        } else if (gridScroll.getScrollX() < gridViewWidth * .5) {
+                            setCurrentToPrevious();
+                            updateAdapters();
+                            scrollGridMiddle();
+                            onTiledMonthEventListener.onSwipe(
+                                    true, selectedDate.getTimeInMillis()
+                            );
+                        } else {
+                            scrollGridMiddle();
+                            onTiledMonthEventListener.onSwipe(
+                                    false, selectedDate.getTimeInMillis()
+                            );
+                        }
                     }
                     gridScroll.performClick();
                     return true;
