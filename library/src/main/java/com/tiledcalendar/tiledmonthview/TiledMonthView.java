@@ -355,22 +355,26 @@ public final class TiledMonthView <T extends Entry> extends LinearLayout impleme
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (onTiledMonthEventListener != null) {
-                        if (gridScroll.getScrollX() > gridViewWidth * 1.5) {
-                            setCurrentToNext();
-                            updateAdapters();
-                            scrollGridMiddle();
+                    if (gridScroll.getScrollX() > gridViewWidth * 1.5) {
+                        setCurrentToNext();
+                        updateAdapters();
+                        scrollGridMiddle();
+                        if (onTiledMonthEventListener != null) {
                             onTiledMonthEventListener.onSwipe(
                                     true, selectedDate.getTimeInMillis());
-                        } else if (gridScroll.getScrollX() < gridViewWidth * .5) {
-                            setCurrentToPrevious();
-                            updateAdapters();
-                            scrollGridMiddle();
+                        }
+                    } else if (gridScroll.getScrollX() < gridViewWidth * .5) {
+                        setCurrentToPrevious();
+                        updateAdapters();
+                        scrollGridMiddle();
+                        if (onTiledMonthEventListener != null) {
                             onTiledMonthEventListener.onSwipe(
                                     true, selectedDate.getTimeInMillis()
                             );
-                        } else {
-                            scrollGridMiddle();
+                        }
+                    } else {
+                        scrollGridMiddle();
+                        if (onTiledMonthEventListener != null) {
                             onTiledMonthEventListener.onSwipe(
                                     false, selectedDate.getTimeInMillis()
                             );
