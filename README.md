@@ -50,7 +50,7 @@ You can create entries by using the `Entry` interface and the `EntryFactory` lik
 
     Entry entry = EntryFactory.makeEntry(
         "asdf123" /* uniqueID */,
-        "Coffe attack /* name */,
+        "Coffe attack" /* name */,
         start /* startDateTime as a Calendar instance*/,
         end /* endDateTime as a Calendar instance */,
         Color.BLUE /* color */);
