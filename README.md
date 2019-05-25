@@ -91,7 +91,7 @@ The listener is notified for the following events:
 # How to contribute to this repository
 - [x] Fork and clone repository
 - [x] Make the changes you're interested in
-- [x] You can test the library by launching it as an application from within this same project
+- [x] You can test the library by installing it as an application (on a phone or emulartor) from within this same project
   - [x] In the `build.gradle` file of the library, uncomment the line `applicationId "com.tiledcalendar"` (if the comment is not there, add `application "com.tiledcalendar"` under `defaultConfig`)
   - [x] At the top of the `build.gradle` file, you'll see `apply plugin: 'com.android.library`. Replace `library` with `application`
   - [x] Click on "Sync". You can also do that through `File > Sync Project with Gradle Files`.
