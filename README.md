@@ -19,6 +19,8 @@ Then in your module level `build.gradle`, add this in the `dependencies`
 
     implementation 'com.github.kndombe:android-tiled-calendar:1.0.0
     
+_You can replace `1.0.0` by the version that you want._
+
 Then sync. You can also do that through `File > Sync Project with Gradle Files`.
 
 # How to use the library
