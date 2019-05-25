@@ -327,7 +327,10 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
         new CellDialog(context, date, tiles, new CellDialog.OnTileClickedListener() {
             @Override
             public void onTileClicked(@NonNull Tile tile) {
-                onTiledMonthEventListener.onTileClick(date.getTimeInMillis(), tile.getUniqueID());
+                if (onTiledMonthEventListener != null) {
+                    onTiledMonthEventListener.onTileClick(
+                            date.getTimeInMillis(), tile.getUniqueID());
+                }
             }
         });
     }
