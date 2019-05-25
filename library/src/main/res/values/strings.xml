@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Android Tiled Calendar</string>
+
+    <string name="dialog_cell_close_description">Close Cell Date Dialog</string>
 </resources>

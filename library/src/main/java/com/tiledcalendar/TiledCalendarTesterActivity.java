@@ -39,6 +39,48 @@ public class TiledCalendarTesterActivity extends AppCompatActivity {
                         new GregorianCalendar(2019, 4, 19),
                         Color.BLUE),
                 EntryFactory.makeEntry(
+                        "adf",
+                        "Hello Motto Please respond because if you smile through yo",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "oadfj",
+                        "Hello MPlease respond because if you smile through yootto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "oekfne8",
+                        "HelPlease respond because if you smile through yolo Motto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "dfbfief",
+                        "Hello Mot Please respond because if you smile through yoto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "7dfp",
+                        "Hello Please respond because if you smile through yoMotto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "ndfjd  d",
+                        "HelPlease respond because if you smile through yolo Motto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
+                        "1kdfjd",
+                        "H Please respond because if you smile through yoello Motto",
+                        new GregorianCalendar(2019, 4, 19),
+                        new GregorianCalendar(2019, 4, 19),
+                        Color.BLUE),
+                EntryFactory.makeEntry(
                         "8",
                         "National",
                         new GregorianCalendar(2019, 4, 19),
@@ -46,7 +88,7 @@ public class TiledCalendarTesterActivity extends AppCompatActivity {
                         Color.BLUE),
                 EntryFactory.makeEntry(
                         "2",
-                        "aPlease respond",
+                        "aPlease respond because if you smile through your fear and sorrow",
                         new GregorianCalendar(2019, 4, 19),
                         new GregorianCalendar(2019, 4, 21),
                         Color.RED),

@@ -1,5 +1,6 @@
 package com.tiledcalendar.tiledmonthview;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.tiledcalendar.R;
 import com.tiledcalendar.common.DateTime;
 import com.tiledcalendar.entries.Entry;
+import com.tiledcalendar.entries.Tile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -301,12 +303,10 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
             public void onCellClick(
                     long selectedDateMillis, boolean dateChanged, boolean monthChanged) {
                 updateSelectedDate(DateTime.getDate(selectedDateMillis));
-                if (!monthChanged) {
-                    updateAdapters();
-                }
+                updateAdapters();
 
+                MonthCell monthCell = getMonthCell(selectedDate);
                 if (onTiledMonthEventListener != null) {
-                    MonthCell monthCell = getMonthCell(selectedDate);
                     List<String> ids = monthCell == null ? null : monthCell.getIDs();
                     onTiledMonthEventListener.onCellClick(
                             selectedDateMillis,
@@ -315,6 +315,19 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
                             monthChanged
                     );
                 }
+
+                if (monthCell != null && monthCell.getTiles().size() > 0) {
+                    showCellDialog(DateTime.getDate(selectedDateMillis), monthCell.getTiles());
+                }
+            }
+        });
+    }
+
+    private void showCellDialog(final Calendar date, List<Tile> tiles) {
+        new CellDialog(context, date, tiles, new CellDialog.OnTileClickedListener() {
+            @Override
+            public void onTileClicked(@NonNull Tile tile) {
+                onTiledMonthEventListener.onTileClick(date.getTimeInMillis(), tile.getUniqueID());
             }
         });
     }
