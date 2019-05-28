@@ -25,6 +25,8 @@ _You can replace `1.0.0` by the version that you want._
 Then sync. You can also do that through `File > Sync Project with Gradle Files`.
 
 # How to use the library
+\* Take a look at [the example activity](https://github.com/kndombe/android-tiled-calendar/blob/master/library/src/main/java/com/tiledcalendar/TiledCalendarExample.java) to see a basic use of the library.
+
 Using this calendar doesn't differ much from the way you would use the regurlar Android `CalendarView`.
 
 ## Initialize calendar
@@ -102,7 +104,7 @@ The listener is notified for the following events:
   - [x] At the top of the `build.gradle` file, you'll see `apply plugin: 'com.android.library`. Replace `library` with `application`
   - [x] Click on "Sync". You can also do that through `File > Sync Project with Gradle Files`.
   - [x] You can now install this project on a device or emulator as an application.
-  - [x] There is a `TiledMonthTesterActivity` under `com.tiledcalendar` that you can use to run any simulations. Feel free to create your own Activities.
+  - [x] There is a `TiledCalendarExample` activity under `com.tiledcalendar` that you can use to run any simulations. Feel free to create your own Activities.
 - [x] If you turned the library into an application for testing, make sure to revert that
   - [x] In the `build.gradle` file, make sure to remove the `applicationId` under `defaultConfig` (you can just comment that line out).
   - [x] At the top of the `build.gradle` file, make sure you have `apply plugin: 'com.android.library'` (and not `com.android.application`)
