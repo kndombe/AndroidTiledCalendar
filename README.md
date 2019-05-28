@@ -1,5 +1,5 @@
 # android-tiled-calendar
- ![Demo Gif](https://github.com/kndombe/android-tiled-calendar/blob/master/demo.gif)
+<img src="https://github.com/kndombe/android-tiled-calendar/blob/master/demo.gif" height=400>
 
 This library offers a calendar view for Android development that allows to customize each month cell by adding a desired number of tiles displaying a specified text.
 
