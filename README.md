@@ -20,6 +20,8 @@ Then in your module level `build.gradle`, add this in the `dependencies`
 
     implementation 'com.github.kndombe:android-tiled-calendar:1.0.0
     
+_You can replace `1.0.0` by the version that you want._
+
 Then sync. You can also do that through `File > Sync Project with Gradle Files`.
 
 # How to use the library
@@ -78,16 +80,19 @@ Use the `setTiledMonthEventListener` method to set an `OnTiledMonthEventListener
 
 The listener is notified for the following events:
 
-- `onCellClick`: when a cell in the calendar view has been clicked. The notification comes with some parameters
-  - `date`: the date corresponding to the clicked cell
-  - `tileIDs`: a list of IDs corresponding to the entries displayed in the selected cell
-  - `selectedDateChanged`: a boolean that indicates whether the clicked cell corresponds to a date different from what was the `selectedDate` before this event.
-  - `monthChanged`: a boolean that indicates whether the currently displayed month has changed as a result of this event. This happens if the clicked cell corresponds to a date that is not in the currently displayed month (day 1 through 28/29/30/31 according to the month; the adjacent months are not considered to be "currently displayed").
-- `onSwipe`: when the calendar has been swiped right or left. The notification comes with some parameters
-  - `monthChanged`: a boolean indicating whether or not the currently selected month has changed in result to this action. It will be the case if the current month has been swiped more than 50% to the right or to the left.
-  - `date`: the currently selected date after this action. It's the same one as before if the month has not changed
+- `onCellClick`: when a cell in the calendar view has been clicked. The notification comes with some parameters:
+  - `date`: the date corresponding to the clicked cell;
+  - `tileIDs`: a list of IDs corresponding to the entries displayed in the selected cell;
+  - `selectedDateChanged`: a boolean that indicates whether the clicked cell corresponds to a date different from what was the `selectedDate` before this event;
+  - `monthChanged`: a boolean that indicates whether the currently displayed month has changed as a result of this event. This happens if the clicked cell corresponds to a date that is not in the currently displayed month (day 1 through 28/29/30/31 according to the month; the adjacent months are not considered to be "currently displayed");
+- `onSwipe`: when the calendar has been swiped right or left. The notification comes with some parameters:
+  - `monthChanged`: a boolean indicating whether or not the currently selected month has changed in result to this action. It will be the case if the current month has been swiped more than 50% to the right or to the left;
+  - `date`: the currently selected date after this action. It's the same one as before if the month has not changed;
+- `onTileClicked`: when a tile has been clicked inside of a date cell dialog. The notification comes with some parameters:
+  - `date`: the date corresponding to the cell containing the clicked tile;
+  - `id`: the id of the entry corresponding to the clicked tile;
 - `onMonthChanged`: when the currently displayed month has been changed. This can happen after a swipe, a click on a cell from an adjacent month or from using the previous/next button. The notification comes with one parameter:
-  - `date`: the currently selected date after this action
+  - `date`: the currently selected date after this action;
 
 # How to contribute to this repository
 - [x] Fork and clone repository
