@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
  */
 public final class EntryFactory {
 
-    public static Entry makeEntry(
+    private static Entry makeEntry(
             @NonNull final String uniqueID,
             @NonNull final String name,
             final long startDateTime,

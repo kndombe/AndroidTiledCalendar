@@ -32,9 +32,9 @@ public class TiledCalendarExample extends AppCompatActivity {
                         "ThisCouldLiterallyBeWhatever",
                         "Car Appointment",
                         new GregorianCalendar(
-                                2019, 3 /* April */, 20).getTimeInMillis(),
+                                2019, 3 /* April */, 20),
                         new GregorianCalendar(
-                                2019, 3 /* April */, 22).getTimeInMillis(),
+                                2019, 3 /* April */, 22),
                         Color.GRAY),
                 EntryFactory.makeEntry(
                         "qwerty",
@@ -58,9 +58,9 @@ public class TiledCalendarExample extends AppCompatActivity {
                         "adf",
                         "Massage",
                         new GregorianCalendar(
-                                2019, 5, 10).getTimeInMillis(),
+                                2019, 5, 10),
                         new GregorianCalendar(
-                                2019, 5, 10).getTimeInMillis(),
+                                2019, 5, 10),
                         Color.RED)
         ));
 

@@ -20,9 +20,9 @@ If you already have `allprojects > repositories` in that file, simply add `maven
 
 Then in your module level `build.gradle`, add this in the `dependencies`
 
-    implementation 'com.github.kndombe:android-tiled-calendar:1.0.0
+    implementation 'com.github.kndombe:android-tiled-calendar:1.0.1
     
-_You can replace `1.0.0` by the version that you want._
+_You can replace `1.0.1` by the version that you want._
 
 Then sync. You can also do that through `File > Sync Project with Gradle Files`.
 
@@ -100,7 +100,9 @@ The listener is notified for the following events:
 
 # Releases Updates
 ## 1.0.1
-- Enabled dark/light mode and custom colors
+- Enabled dark/light mode and custom colors;
+- Previous and Next buttons changed to arrows;
+- Only use `Calendar` objects with `makeEntry`, no more `long`. This is to have a better control over elements such as time zones.
 
 # How to contribute to this repository
 - [x] Fork and clone repository
