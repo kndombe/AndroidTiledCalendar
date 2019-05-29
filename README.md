@@ -1,5 +1,5 @@
 # android-tiled-calendar
-|Demo  | Dark Mode | Custom Colors |
+|Demo    | Dark Mode | Custom Colors  |
 |:------:|:---------:|:--------------:|
 | <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/demo.gif" height=400> | <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/dark_mode.jpg" height=400> | <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/custom_colors.jpg" height=400> |
 
