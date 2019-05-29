@@ -2,12 +2,14 @@ package com.tiledcalendar.tiledmonthview;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.android.material.button.MaterialButton;
 import com.tiledcalendar.R;
 import com.tiledcalendar.common.DateTime;
 import com.tiledcalendar.common.Utils;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 final class CellDialog extends Dialog {
 
@@ -30,9 +33,12 @@ final class CellDialog extends Dialog {
     private Context context;
     private Calendar date;
     private List<Tile> tiles;
+    private int colorBackground;
+    private int colorForeground;
     private OnTileClickedListener onTileClickedListener;
 
-    private AppCompatImageView closeButton;
+    private ConstraintLayout container;
+    private MaterialButton closeButton;
     private AppCompatTextView dateTextView;
     private LinearLayout tilesLayout;
 
@@ -42,11 +48,15 @@ final class CellDialog extends Dialog {
             @NonNull Context context,
             Calendar date,
             List<Tile> tiles,
+            int colorBackground,
+            int colorForeground,
             OnTileClickedListener onTileClickedListener) {
         super(context);
         this.context = context;
         this.date = date;
         this.tiles = tiles;
+        this.colorBackground = colorBackground;
+        this.colorForeground = colorForeground;
         this.onTileClickedListener = onTileClickedListener;
         init();
     }
@@ -54,10 +64,13 @@ final class CellDialog extends Dialog {
     private void init() {
 
         setContentView(R.layout.dialog_cell);
+        container = findViewById(R.id.dialog_cell_container);
         closeButton = findViewById(R.id.dialog_cell_close);
         dateTextView = findViewById(R.id.dialog_cell_date);
         tilesLayout = findViewById(R.id.dialog_cell_tiles);
 
+        container.setBackgroundColor(colorBackground);
+        closeButton.setIconTint(ColorStateList.valueOf(colorForeground));
         setDate();
         setTiles();
         setCloseButtonListeners();
@@ -82,6 +95,7 @@ final class CellDialog extends Dialog {
 
     private void setDate() {
         dateTextView.setText(DateTime.getFormattedDate(date.getTimeInMillis()));
+        dateTextView.setTextColor(colorForeground);
     }
 
     private void setTiles() {

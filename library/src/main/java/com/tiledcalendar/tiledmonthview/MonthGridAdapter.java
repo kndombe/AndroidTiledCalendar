@@ -29,7 +29,12 @@ import androidx.appcompat.widget.AppCompatTextView;
 final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
 
     interface OnCellClickListener {
-        void onCellClick(long selectedDateMillis, boolean dateChanged, boolean monthChanged);
+        void onCellClick(
+                long selectedDateMillis,
+                boolean dateChanged,
+                boolean monthChanged,
+                int colorBackground,
+                int colorForeground);
     }
 
     private final String TAG = "MonthGridAdapter";
@@ -38,6 +43,12 @@ final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
     private Calendar selectedDate;
     private int gridViewHeight;
     private OnCellClickListener onCellClickListener;
+
+    private int colorBackground = TiledMonthView.COLOR_LIGHT_BACKGROUND;
+    private int colorForeground = TiledMonthView.COLOR_LIGHT_FOREGROUND;
+    private int colorSelectedDateCell = TiledMonthView.COLOR_LIGHT_SELECTED_DATE_CELL;
+    private int colorCurrentDateCell = TiledMonthView.COLOR_LIGHT_CURRENT_DATE_CELL;
+    private int colorCurrentDateCellText = TiledMonthView.COLOR_LIGHT_CURRENT_DATE_CELL_TEXT;
 
     MonthGridAdapter(
             @NonNull Context context,
@@ -69,30 +80,31 @@ final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
         int rows = (int) Math.ceil((double) (monthCells.size()) / 7.0);
         layoutParams.height = gridViewHeight / rows;
         view.setLayoutParams(layoutParams);
+        view.setBackgroundColor(colorBackground);
 
         AppCompatTextView cellDate = view.findViewById(R.id.month_view_cell_date);
+        cellDate.setTextColor(colorForeground);
         MonthCell cell = getItem(position);
         Check.notNull(cell, TAG);
         boolean isToday = DateTime.isInSameDayAs(cell.getDate(), new GregorianCalendar());
         boolean isSelected = DateTime.isInSameDayAs(cell.getDate(), selectedDate);
         boolean isSameMonth = DateTime.isInSameMonthAs(cell.getDate(), selectedDate);
-        view.setBackground(new GradientDrawable());
         GradientDrawable dateBackground = new GradientDrawable();
         dateBackground.mutate();
         dateBackground.setCornerRadius(35f);
         if (isToday) {
-            dateBackground.setColor(Color.rgb(95,95,95));
+            dateBackground.setColor(colorCurrentDateCell);
         }
         if (isSelected) {
-            view.setBackgroundColor(Color.rgb(230,230,230));
+            view.setBackgroundColor(colorSelectedDateCell);
         }
 
         if (isToday) {
-            cellDate.setTextColor(Color.rgb(255, 255, 255));
+            cellDate.setTextColor(colorCurrentDateCellText);
         } else if (isSameMonth) {
-            cellDate.setTextColor(Color.rgb(150,150,150));
+            cellDate.setTextColor(colorForeground);
         } else {
-            cellDate.setTextColor(Color.rgb(220,220,220));
+            cellDate.setTextColor(Utils.changeAlphaByPercentage(colorForeground, .4f));
         }
         cellDate.setBackground(dateBackground);
         Check.notNull(cell, TAG);
@@ -110,6 +122,22 @@ final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
 
     long getCurrentDate() {
         return selectedDate.getTimeInMillis();
+    }
+
+    void setThemeColors(
+            @Nullable Integer background,
+            @Nullable Integer foreground,
+            @Nullable Integer selectedDateCell,
+            @Nullable Integer currentDateCell,
+            @Nullable Integer currentDateCellText
+    ) {
+        colorBackground = background == null ? colorBackground : background;
+        colorForeground = foreground == null ? colorForeground : foreground;
+        colorSelectedDateCell = selectedDateCell == null ? colorSelectedDateCell : selectedDateCell;
+        colorCurrentDateCell = currentDateCell == null ? colorCurrentDateCell : currentDateCell;
+        colorCurrentDateCellText = currentDateCellText == null ?
+                colorCurrentDateCellText : currentDateCellText;
+
     }
 
     private void addTile(LinearLayout parent, Tile tile) {
@@ -166,7 +194,9 @@ final class MonthGridAdapter extends ArrayAdapter<MonthCell> {
                     onCellClickListener.onCellClick(
                             newDateMillis,
                             !DateTime.isInSameDayAs(newDateMillis, previousSelectedDate),
-                            !DateTime.isInSameMonthAs(newDateMillis, previousSelectedDate));
+                            !DateTime.isInSameMonthAs(newDateMillis, previousSelectedDate),
+                            colorBackground,
+                            colorForeground);
                 }
                 notifyDataSetChanged();
             }

@@ -1,7 +1,8 @@
 package com.tiledcalendar.tiledmonthview;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,10 +11,6 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.tiledcalendar.R;
@@ -31,7 +28,32 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+
 public final class TiledMonthView extends LinearLayout implements TiledMonthCalendar {
+
+    static final int COLOR_LIGHT_BACKGROUND = Color.WHITE;
+    static final int COLOR_LIGHT_FOREGROUND = Color.rgb(80, 80, 80);
+    static final int COLOR_LIGHT_SELECTED_DATE_CELL = Color.rgb(230, 230, 230);
+    static final int COLOR_LIGHT_CURRENT_DATE_CELL = Color.rgb(100, 100,100);
+    static final int COLOR_LIGHT_CURRENT_DATE_CELL_TEXT = Color.rgb(250, 250,250);
+    private static final int COLOR_LIGHT_WEEKDAY_BACKGROUND =
+            Color.rgb(210, 210, 210);
+    private static final int COLOR_LIGHT_WEEKDAY_FOREGROUND = COLOR_LIGHT_FOREGROUND;
+    private static final int COLOR_LIGHT_BUTTON_FOREGROUND = COLOR_LIGHT_FOREGROUND;
+
+    static final int COLOR_DARK_BACKGROUND = Color.rgb(50, 50, 50);
+    static final int COLOR_DARK_FOREGROUND = Color.WHITE;
+    static final int COLOR_DARK_SELECTED_DATE_CELL = Color.rgb(100, 100, 100);
+    static final int COLOR_DARK_CURRENT_DATE_CELL = Color.rgb(210, 210,210);
+    static final int COLOR_DARK_CURRENT_DATE_CELL_TEXT = Color.rgb(50, 50,50);
+    private static final int COLOR_DARK_WEEKDAY_BACKGROUND =
+            Color.rgb(80, 80, 80);
+    private static final int COLOR_DARK_WEEKDAY_FOREGROUND = COLOR_DARK_FOREGROUND;
+    private static final int COLOR_DARK_BUTTON_FOREGROUND = COLOR_DARK_FOREGROUND;
+
     private Context context;
     private RelativeLayout header;
     private MaterialButton previous;
@@ -53,7 +75,6 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
     private List<MonthCell> nextMonthCells = new ArrayList<>();
     private Map<String, Entry> entriesMap = new HashMap<>();
     private OnTiledMonthEventListener onTiledMonthEventListener;
-
 
     public TiledMonthView(Context context) {
         super(context);
@@ -103,13 +124,13 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
     }
 
     @Override
-    public void addEntry(Entry newEntry) {
+    public void addEntry(@NonNull Entry newEntry) {
         entriesMap.put(newEntry.getUniqueID(), newEntry);
         updateAdapters();
     }
 
     @Override
-    public void addEntries(List<Entry> newEntries) {
+    public void addEntries(@NonNull List<Entry> newEntries) {
         for (Entry entry : newEntries) {
             entriesMap.put(entry.getUniqueID(), entry);
         }
@@ -119,6 +140,57 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
     @Override
     public void setTiledMonthEventListener(@NonNull OnTiledMonthEventListener listener) {
         this.onTiledMonthEventListener = listener;
+    }
+
+    @Override
+    public void activateLightMode() {
+        setCustomThemeColors(
+                COLOR_LIGHT_BACKGROUND,
+                COLOR_LIGHT_FOREGROUND,
+                COLOR_LIGHT_SELECTED_DATE_CELL,
+                COLOR_LIGHT_CURRENT_DATE_CELL,
+                COLOR_LIGHT_CURRENT_DATE_CELL_TEXT,
+                COLOR_LIGHT_WEEKDAY_BACKGROUND,
+                COLOR_LIGHT_WEEKDAY_FOREGROUND,
+                COLOR_LIGHT_BUTTON_FOREGROUND
+        );
+    }
+
+    @Override
+    public void activateDarkMode() {
+        setCustomThemeColors(
+                COLOR_DARK_BACKGROUND,
+                COLOR_DARK_FOREGROUND,
+                COLOR_DARK_SELECTED_DATE_CELL,
+                COLOR_DARK_CURRENT_DATE_CELL,
+                COLOR_DARK_CURRENT_DATE_CELL_TEXT,
+                COLOR_DARK_WEEKDAY_BACKGROUND,
+                COLOR_DARK_WEEKDAY_FOREGROUND,
+                COLOR_DARK_BUTTON_FOREGROUND
+        );
+    }
+
+    @Override
+    public void setCustomThemeColors(
+            @Nullable Integer background,
+            @Nullable Integer foreground,
+            @Nullable Integer selectedDateCell,
+            @Nullable Integer currentDateCell,
+            @Nullable Integer currentDateCellText,
+            @Nullable Integer weekdayBackground,
+            @Nullable Integer weekdayForeground,
+            @Nullable Integer buttonForeground) {
+        setThemeColors(
+                background,
+                foreground,
+                selectedDateCell,
+                currentDateCell,
+                currentDateCellText,
+                weekdayBackground,
+                weekdayForeground,
+                buttonForeground
+        );
+        updateAdapters();
     }
 
     private void init() {
@@ -135,7 +207,15 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
         previousGridView = view.findViewById(R.id.month_view_previous_grid);
         nextGridView = view.findViewById(R.id.month_view_next_grid);
         selectedDate = Calendar.getInstance();
+
+        Calendar previousMonthDate =
+                DateTime.relativeTime(selectedDate, Calendar.MONTH, -1);
+        Calendar nextMonthDate = DateTime.relativeTime(selectedDate, Calendar.MONTH, 1);
+        gridAdapter = new MonthGridAdapter(context, selectedDate);
+        previousGridAdapter = new MonthGridAdapter(context, previousMonthDate);
+        nextGridAdapter = new MonthGridAdapter(context, nextMonthDate);
         initGridView();
+        initThemeColors();
         initListeners();
         view.post(new Runnable() {
             @Override
@@ -164,18 +244,25 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
     }
 
     private void initGridView() {
-        gridAdapter = new MonthGridAdapter(context, selectedDate);
-        Calendar previousMonthDate =
-                DateTime.relativeTime(selectedDate, Calendar.MONTH, -1);
-        Calendar nextMonthDate = DateTime.relativeTime(selectedDate, Calendar.MONTH, 1);
-        previousGridAdapter = new MonthGridAdapter(context, previousMonthDate);
-        nextGridAdapter = new MonthGridAdapter(context, nextMonthDate);
         monthCells = computeGridCells(selectedDate);
         updateAdapters();
         gridView.setAdapter(gridAdapter);
         previousGridView.setAdapter(previousGridAdapter);
         nextGridView.setAdapter(nextGridAdapter);
         initOnCellListener();
+    }
+
+    private void initThemeColors() {
+        setThemeColors(
+                COLOR_LIGHT_BACKGROUND,
+                COLOR_LIGHT_FOREGROUND,
+                COLOR_LIGHT_SELECTED_DATE_CELL,
+                COLOR_LIGHT_CURRENT_DATE_CELL,
+                COLOR_LIGHT_CURRENT_DATE_CELL_TEXT,
+                COLOR_LIGHT_WEEKDAY_BACKGROUND,
+                COLOR_LIGHT_WEEKDAY_FOREGROUND,
+                COLOR_LIGHT_BUTTON_FOREGROUND
+        );
     }
 
     private void scrollGridLeft() {
@@ -297,11 +384,57 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
         return null;
     }
 
+    private void setThemeColors(
+            @Nullable Integer background,
+            @Nullable Integer foreground,
+            @Nullable Integer selectedDateCell,
+            @Nullable Integer currentDateCell,
+            @Nullable Integer currentDateCellText,
+            @Nullable Integer weekdayBackground,
+            @Nullable Integer weekdayForeground,
+            @Nullable Integer buttonForeground
+    ) {
+        gridAdapter.setThemeColors(
+                background, foreground, selectedDateCell, currentDateCell, currentDateCellText);
+        previousGridAdapter.setThemeColors(
+                background, foreground, selectedDateCell, currentDateCell, currentDateCellText);
+        nextGridAdapter.setThemeColors(
+                background, foreground, selectedDateCell, currentDateCell, currentDateCellText);
+
+        if (background != null) {
+            header.setBackgroundColor(background);
+        }
+
+        if (foreground != null) {
+            currentMonthLabel.setTextColor(foreground);
+        }
+
+        if (weekdayBackground != null) {
+            weekHeaders.setBackgroundColor(weekdayBackground);
+        }
+
+        if (weekdayForeground != null) {
+            for (int i = 0; i < weekHeaders.getChildCount(); i++) {
+                AppCompatTextView text = (AppCompatTextView) weekHeaders.getChildAt(i);
+                text.setTextColor(weekdayForeground);
+            }
+        }
+
+        if (buttonForeground != null) {
+            previous.setIconTint(ColorStateList.valueOf(buttonForeground));
+            next.setIconTint(ColorStateList.valueOf(buttonForeground));
+        }
+    }
+
     private void initOnCellListener() {
         gridAdapter.setOnCellClickListener(new MonthGridAdapter.OnCellClickListener() {
             @Override
             public void onCellClick(
-                    long selectedDateMillis, boolean dateChanged, boolean monthChanged) {
+                    long selectedDateMillis,
+                    boolean dateChanged,
+                    boolean monthChanged,
+                    int colorBackground,
+                    int colorForeground) {
                 updateSelectedDate(DateTime.getDate(selectedDateMillis));
                 updateAdapters();
 
@@ -317,21 +450,35 @@ public final class TiledMonthView extends LinearLayout implements TiledMonthCale
                 }
 
                 if (monthCell != null && monthCell.getTiles().size() > 0) {
-                    showCellDialog(DateTime.getDate(selectedDateMillis), monthCell.getTiles());
+                    showCellDialog(
+                            DateTime.getDate(selectedDateMillis),
+                            monthCell.getTiles(),
+                            colorBackground,
+                            colorForeground);
                 }
             }
         });
     }
 
-    private void showCellDialog(final Calendar date, List<Tile> tiles) {
-        new CellDialog(context, date, tiles, new CellDialog.OnTileClickedListener() {
-            @Override
-            public void onTileClicked(@NonNull Tile tile) {
-                if (onTiledMonthEventListener != null) {
-                    onTiledMonthEventListener.onTileClick(
-                            date.getTimeInMillis(), tile.getUniqueID());
-                }
-            }
+    private void showCellDialog(
+            final Calendar date,
+            List<Tile> tiles,
+            int colorBackground,
+            int colorForeground) {
+        new CellDialog(
+                context,
+                date,
+                tiles,
+                colorBackground,
+                colorForeground,
+                new CellDialog.OnTileClickedListener() {
+                    @Override
+                    public void onTileClicked(@NonNull Tile tile) {
+                        if (onTiledMonthEventListener != null) {
+                            onTiledMonthEventListener.onTileClick(
+                                    date.getTimeInMillis(), tile.getUniqueID());
+                        }
+                    }
         });
     }
 

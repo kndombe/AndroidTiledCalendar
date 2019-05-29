@@ -2,4 +2,11 @@
     <string name="app_name">Android Tiled Calendar</string>
 
     <string name="dialog_cell_close_description">Close Cell Date Dialog</string>
+    <string name="weekday_sunday">S</string>
+    <string name="weekday_monday">M</string>
+    <string name="weekday_tuesday">T</string>
+    <string name="weekday_wednesday">W</string>
+    <string name="weekday_thursday">T</string>
+    <string name="weekday_friday">F</string>
+    <string name="weekday_saturday">S</string>
 </resources>

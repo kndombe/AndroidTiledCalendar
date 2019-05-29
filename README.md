@@ -1,5 +1,7 @@
 # android-tiled-calendar
-<img src="https://github.com/kndombe/android-tiled-calendar/blob/master/demo.gif" height=400>
+|Demo  | Dark Mode | Custom Colors |
+|:------:|:---------:|:--------------:|
+| <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/demo.gif" height=400> | <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/dark_mode.jpg" height=400> | <img src="https://github.com/kndombe/android-tiled-calendar/blob/master/images/custom_colors.jpg" height=400> |
 
 This library offers a calendar view for Android development that allows to customize each month cell by adding a desired number of tiles displaying a specified text.
 
@@ -95,6 +97,10 @@ The listener is notified for the following events:
   - `id`: the id of the entry corresponding to the clicked tile;
 - `onMonthChanged`: when the currently displayed month has been changed. This can happen after a swipe, a click on a cell from an adjacent month or from using the previous/next button. The notification comes with one parameter:
   - `date`: the currently selected date after this action;
+
+# Releases Updates
+## 1.0.1
+- Enabled dark/light mode and custom colors
 
 # How to contribute to this repository
 - [x] Fork and clone repository

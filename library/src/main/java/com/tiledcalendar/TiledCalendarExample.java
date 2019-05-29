@@ -3,6 +3,7 @@ package com.tiledcalendar;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.tiledcalendar.common.Utils;
 import com.tiledcalendar.entries.EntryFactory;
 import com.tiledcalendar.tiledmonthview.OnTiledMonthEventListener;
 import com.tiledcalendar.tiledmonthview.TiledMonthCalendar;
@@ -21,7 +22,11 @@ public class TiledCalendarExample extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiled_calendar_example);
+
+        // Init the calendar
         TiledMonthCalendar tiledMonth = findViewById(R.id.tiled_month_view);
+
+        // Add entries to the calendar.
         tiledMonth.addEntries(Arrays.asList(
                 EntryFactory.makeEntry(
                         "ThisCouldLiterallyBeWhatever",
@@ -59,6 +64,22 @@ public class TiledCalendarExample extends AppCompatActivity {
                         Color.RED)
         ));
 
+        // Set Dark Mode
+        tiledMonth.activateDarkMode();
+
+        // Set custom colors
+        // If you leave an argument to null, the current color for that field will be used.
+        tiledMonth.setCustomThemeColors(
+                Color.rgb(54, 59, 99) /* background */ ,
+                null /* foreground */,
+                null /* selectedDateCell */,
+                null /* currentDateCell */,
+                null /* currentDateCellText */,
+                Color.rgb(102, 56, 97) /* weekdayBackground */,
+                null /* weekdayForeground */,
+                null /* buttonForeground */);
+
+        // Listen to events
         tiledMonth.setTiledMonthEventListener(new OnTiledMonthEventListener() {
             @Override
             public void onCellClick(

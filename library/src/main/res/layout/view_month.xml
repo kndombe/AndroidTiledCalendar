@@ -13,14 +13,14 @@
         android:padding="10dp">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/month_view_previous"
-            android:textAppearance="@style/Theme.MaterialComponents.Light"
+            android:textAppearance="@style/Theme.MaterialComponents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:backgroundTint="@android:color/darker_gray"
-            android:textColor="#fff"
-            android:textSize="15sp"
-            android:text="Previous"/>
+            android:backgroundTint="@android:color/transparent"
+            app:iconTint="@android:color/darker_gray"
+            app:icon="@drawable/ic_arrow_left"
+            />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/month_view_current_label"
             android:layout_width="wrap_content"
@@ -30,15 +30,15 @@
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/month_view_next"
-            android:textAppearance="@style/Theme.MaterialComponents.Light"
+            android:textAppearance="@style/Theme.MaterialComponents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:padding="10dp"
-            android:backgroundTint="@android:color/darker_gray"
-            android:textColor="#fff"
-            android:textSize="15sp"
-            android:text="Next"
+            android:backgroundTint="@android:color/transparent"
+            app:iconTint="@android:color/darker_gray"
+            android:textColor="#000"
+            app:icon="@drawable/ic_arrow_right"
             />
     </RelativeLayout>
     <LinearLayout
@@ -49,43 +49,43 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="S"
+            android:text="@string/weekday_sunday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="M"
+            android:text="@string/weekday_monday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="T"
+            android:text="@string/weekday_tuesday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="W"
+            android:text="@string/weekday_wednesday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="T"
+            android:text="@string/weekday_thursday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="F"
+            android:text="@string/weekday_friday"
             android:gravity="center"
             android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="S"
+            android:text="@string/weekday_saturday"
             android:gravity="center"
             android:layout_weight="1"/>
     </LinearLayout>
